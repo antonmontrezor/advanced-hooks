@@ -3,10 +3,17 @@
 
 import * as React from 'react'
 
+// moving this one out the component for less noise,
+// this function should be used for expensive computation and only be called when
+// the hook is inspected
+const formatDebugValue = ({query, state}) => (
+  `\`${query}\` => ${state}`
+)
+
 function useMedia(query, initialState = false) {
   const [state, setState] = React.useState(initialState)
-  // 🐨 call React.useDebugValue here.
-  // 💰 here's the formatted label I use: `\`${query}\` => ${state}`
+
+  React.useDebugValue({query, state}, formatDebugValue)
 
   React.useEffect(() => {
     let mounted = true
